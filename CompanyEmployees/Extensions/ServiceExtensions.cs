@@ -31,6 +31,7 @@ namespace CompanyEmployees.Extensions
 
         public static void ConfigureRepositoryManager(this IServiceCollection services) =>
             services.AddScoped<IRepositoryManager, RepositoryManager>();
+
     
     }
 }

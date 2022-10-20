@@ -1,5 +1,6 @@
 using CompanyEmployees.Extensions;
 using Entities;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NLog;
@@ -32,7 +33,8 @@ try
 
     //Configure the RepositoryManager for DI
     builder.Services.ConfigureRepositoryManager();
-    
+    builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -57,6 +59,16 @@ try
     });
 
     app.UseRouting();
+
+    //Convention Based Routing
+    //app.UseEndpoints(endpoints =>
+    //{
+    //    endpoints.MapControllerRoute(
+    //        name: "default",
+    //        pattern: "{controller=Home/{action=Index}/{id?}"
+    //        );
+
+    //});
 
     app.UseAuthorization();
 
