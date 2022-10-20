@@ -1,4 +1,7 @@
 using CompanyEmployees.Extensions;
+using Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Web;
 
@@ -17,14 +20,19 @@ try
     //Support for CORS and IIS integration
     builder.Services.ConfigureCors();
     builder.Services.ConfigureIISIntegration();
+
+    //Set up NLog for DI
     builder.Logging.ClearProviders();
     builder.Host.UseNLog();
-
+    //Use the LoggerService
     builder.Services.ConfigureLoggerService();
 
+    //Configure the DbContext 
+    builder.Services.ConfigureSqlContext(builder.Configuration);
 
-    //builder.Logging.ClearProviders();
-    //builder.
+    //Configure the RepositoryManager for DI
+    builder.Services.ConfigureRepositoryManager();
+    
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.

@@ -1,4 +1,4 @@
-using Contracts;
+using Contracts.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

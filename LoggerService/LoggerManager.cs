@@ -1,4 +1,4 @@
-﻿using Contracts;
+﻿using Contracts.Interfaces;
 using NLog;
 
 namespace LoggerService
