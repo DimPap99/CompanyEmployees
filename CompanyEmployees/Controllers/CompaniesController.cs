@@ -20,6 +20,23 @@ namespace CompanyEmployees.Controllers
             this._mapper = mapper;
         }
 
+        [HttpGet("{id}")]
+        public IActionResult GetCompany(Guid id)
+        {
+            var company = this._repositoryManager.Company.GetCompany(id, false);
+            if (company == null)
+            {
+                _logger.LogInfo($"Company with id: {id} doesn't exist in the database.");
+                return NotFound();
+            }
+            else
+            {
+                var companyDto = _mapper.Map<CompanyDto>(company);
+                return Ok(companyDto);
+            }
+
+        }
+
         [HttpGet]
         public IActionResult GetCompanies()
         {
