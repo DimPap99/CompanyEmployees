@@ -5,12 +5,16 @@ namespace LoggerService
 {
     public class LoggerManager : ILoggerManager
     {
-        private static ILogger _logger = LogManager.GetCurrentClassLogger();
+        private static ILogger _logger = NLog.LogManager.GetCurrentClassLogger();
+
+        
         public LoggerManager()
         {
+           
         }
         public void LogDebug(string message)
         {
+            
             _logger.Debug(message);
         }
         public void LogError(string message)
@@ -26,6 +30,9 @@ namespace LoggerService
             _logger.Warn(message);
         }
 
-
+        public void Shutdown()
+        {
+            NLog.LogManager.Shutdown();
+        }
     }
 }

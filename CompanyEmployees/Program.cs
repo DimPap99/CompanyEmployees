@@ -1,5 +1,6 @@
 using CompanyEmployees.Extensions;
 using Entities;
+using LoggerService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -7,7 +8,7 @@ using NLog;
 using NLog.Web;
 
 var builder = WebApplication.CreateBuilder(args);
-var logger = NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+var logger = new LoggerManager();//NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
 
 try
 {
@@ -31,12 +32,14 @@ try
     //Configure the DbContext 
     builder.Services.ConfigureSqlContext(builder.Configuration);
 
+    
+
     //Configure the RepositoryManager for DI
     builder.Services.ConfigureRepositoryManager();
     builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
     var app = builder.Build();
-
+    app.ConfigureExceptionHandler(logger);
     // Configure the HTTP request pipeline.
     if (app.Environment.IsDevelopment())
     {
@@ -44,21 +47,23 @@ try
         app.UseSwaggerUI();
         app.UseDeveloperExceptionPage();
     }
-    else app.UseHsts();
+    else
+    {
+        app.UseHsts();
+    }
 
     app.UseHttpsRedirection();
 
     app.UseStaticFiles();
 
     app.UseCors("CorsPolicy");
-
-
+   
     app.UseForwardedHeaders(new ForwardedHeadersOptions
     {
         ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
     });
 
-    app.UseRouting();
+    //app.UseRouting();
 
     //Convention Based Routing
     //app.UseEndpoints(endpoints =>
@@ -80,11 +85,11 @@ try
 catch (Exception exception)
 {
     // NLog: catch setup errors
-    logger.Error(exception, "Stopped program because of exception");
+    logger.LogError( $"Stopped program because of exception: {exception}");
     throw;
 }
 finally
 {
     // Ensure to flush and stop internal timers/threads before application-exit (Avoid segmentation fault on Linux)
-    NLog.LogManager.Shutdown();
+    logger.Shutdown();
 }
