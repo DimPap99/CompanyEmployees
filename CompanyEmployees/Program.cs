@@ -26,6 +26,14 @@ try
     //Set up NLog for DI
     builder.Logging.ClearProviders();
     builder.Host.UseNLog();
+
+    //Content Negotiation
+    builder.Services.AddControllers(config =>
+    {
+        config.RespectBrowserAcceptHeader = true;
+        config.ReturnHttpNotAcceptable = true;
+    }).AddXmlDataContractSerializerFormatters().AddCustomCSVFormatter();
+    
     //Use the LoggerService
     builder.Services.ConfigureLoggerService();
 
