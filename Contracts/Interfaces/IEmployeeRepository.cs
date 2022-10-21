@@ -11,5 +11,6 @@ namespace Contracts.Interfaces
     {
         IEnumerable<Employee> GetEmployees(Guid companyId, bool trackChanges);
         public Employee GetEmployee(Guid companyId, Guid id, bool trackChanges);
+        void CreateEmployeeForCompany(Guid companyId, Employee employee);
     }
 }

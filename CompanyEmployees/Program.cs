@@ -71,7 +71,7 @@ try
         ForwardedHeaders = Microsoft.AspNetCore.HttpOverrides.ForwardedHeaders.All
     });
 
-    //app.UseRouting();
+    app.UseRouting();
 
     //Convention Based Routing
     //app.UseEndpoints(endpoints =>
