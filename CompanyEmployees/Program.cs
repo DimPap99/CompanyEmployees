@@ -2,6 +2,7 @@ using CompanyEmployees.Extensions;
 using Entities;
 using LoggerService;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NLog;
@@ -26,7 +27,10 @@ try
     //Set up NLog for DI
     builder.Logging.ClearProviders();
     builder.Host.UseNLog();
-
+    builder.Services.Configure<ApiBehaviorOptions>(options =>
+    {
+        options.SuppressModelStateInvalidFilter = true;
+    });
     //Content Negotiation
     builder.Services.AddControllers(config =>
     {
