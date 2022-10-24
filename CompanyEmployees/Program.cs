@@ -32,7 +32,9 @@ try
     {
         config.RespectBrowserAcceptHeader = true;
         config.ReturnHttpNotAcceptable = true;
-    }).AddXmlDataContractSerializerFormatters().AddCustomCSVFormatter();
+    }).AddNewtonsoftJson()
+    .AddXmlDataContractSerializerFormatters()
+    .AddCustomCSVFormatter();
     
     //Use the LoggerService
     builder.Services.ConfigureLoggerService();
