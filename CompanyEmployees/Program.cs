@@ -1,3 +1,4 @@
+using CompanyEmployees.ActionFilters;
 using CompanyEmployees.Extensions;
 using Entities;
 using LoggerService;
@@ -15,7 +16,7 @@ try
 {
         // Add services to the container.
 
-        builder.Services.AddControllers();
+    builder.Services.AddControllers();
     // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
@@ -46,7 +47,9 @@ try
     //Configure the DbContext 
     builder.Services.ConfigureSqlContext(builder.Configuration);
 
-    
+    builder.Services.AddScoped<ValidationFilterAttribute>();
+    builder.Services.AddScoped<ValidateCompanyExistsAttribute>();
+    builder.Services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
 
     //Configure the RepositoryManager for DI
     builder.Services.ConfigureRepositoryManager();
