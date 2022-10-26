@@ -1,6 +1,8 @@
 using CompanyEmployees.ActionFilters;
 using CompanyEmployees.Extensions;
+using Contracts.Interfaces;
 using Entities;
+using Entities.DTO;
 using LoggerService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using NLog;
 using NLog.Web;
+using Repository.DataShaping;
 
 var builder = WebApplication.CreateBuilder(args);
 var logger = new LoggerManager();//NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
@@ -50,6 +53,7 @@ try
     builder.Services.AddScoped<ValidationFilterAttribute>();
     builder.Services.AddScoped<ValidateCompanyExistsAttribute>();
     builder.Services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
+    builder.Services.AddScoped<IDataShaper<EmployeeDto>, DataShaper<EmployeeDto>>();
 
     //Configure the RepositoryManager for DI
     builder.Services.ConfigureRepositoryManager();
